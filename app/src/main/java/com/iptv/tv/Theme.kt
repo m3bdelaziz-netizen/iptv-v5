@@ -14,17 +14,17 @@ object Theme {
         "Orange" to 0xFFFF6D00, "Teal" to 0xFF00BFA5, "Pink" to 0xFFFF4081, "Gold" to 0xFFFFC107
     )
 
-    var mode by mutableStateOf(0)
-        private set
-    var accentIdx by mutableStateOf(0)
-        private set
+    private var modeState by mutableStateOf(0)
+    private var accentState by mutableStateOf(0)
+    val mode: Int get() = modeState
+    val accentIdx: Int get() = accentState
 
     fun load() {
-        mode = Store.int("theme", 0).coerceIn(0, modes.size - 1)
-        accentIdx = Store.int("accent", 0).coerceIn(0, accents.size - 1)
+        modeState = Store.int("theme", 0).coerceIn(0, modes.size - 1)
+        accentState = Store.int("accent", 0).coerceIn(0, accents.size - 1)
     }
-    fun setMode(i: Int) { mode = i.coerceIn(0, modes.size - 1); Store.put("theme", mode) }
-    fun setAccent(i: Int) { accentIdx = i.coerceIn(0, accents.size - 1); Store.put("accent", accentIdx) }
+    fun setMode(i: Int) { modeState = i.coerceIn(0, modes.size - 1); Store.put("theme", modeState) }
+    fun setAccent(i: Int) { accentState = i.coerceIn(0, accents.size - 1); Store.put("accent", accentState) }
 
     val accent: Color get() = Color(accents[accentIdx].second)
     val onAccent: Color get() = if (accent.luminance() > 0.5f) Color.Black else Color.White
